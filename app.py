@@ -130,6 +130,25 @@ LAY = dict(template=T, paper_bgcolor=card, plot_bgcolor=bg,
            xaxis=dict(**AX), yaxis=dict(**AX),
            margin=dict(l=10, r=10, t=30, b=10))
 
+FUENTE = "FUENTE: Elaboración propia con base en INE (2026)."
+
+def con_fuente(fig, y=-0.28, b=100):
+    """Fuente al pie del grafico.
+
+    En coordenadas 'paper' el 0 es el borde inferior del area de dibujo y los
+    negativos bajan. Ojo: xref/yref solo aceptan 'paper' o dominios de eje, no
+    existe el valor 'container' en esta version de Plotly, tira excepcion y la
+    app no renderiza nada.
+
+    La cuenta para que no se corte: y * (alto - margen_arriba - b) + alto del
+    texto tiene que quedar por debajo de b.
+    """
+    fig.update_layout(margin=dict(l=10, r=10, t=30, b=b))
+    fig.add_annotation(text=FUENTE, xref="paper", yref="paper", x=0, y=y,
+                       xanchor="left", yanchor="top", showarrow=False,
+                       font=dict(size=10, color=mut))
+    return fig
+
 st.title("La transformación del parque automotor de Chuquisaca")
 st.caption("Tres pasos para entender qué pasó entre 2003 y 2025.")
 st.divider()
@@ -146,6 +165,7 @@ if paso.startswith("1"):
                              line=dict(color=gold, width=3), marker=dict(size=7, color=gold),
                              fill="tozeroy", fillcolor="rgba(212,175,55,0.14)"))
     f.update_layout(**LAY, height=420, xaxis_title="Año", yaxis_title="Vehículos")
+    con_fuente(f, y=-0.30, b=110)
     st.plotly_chart(f, use_container_width=True, theme=None)
 
 elif paso.startswith("2"):
@@ -160,6 +180,7 @@ elif paso.startswith("2"):
                          text=g.pct.apply(lambda p: f"{p:.1f}%"), textposition="outside",
                          textfont=dict(color=txt)))
     f.update_layout(**LAY, height=460, xaxis_title="Vehículos")
+    con_fuente(f, y=-0.25, b=115)
     st.plotly_chart(f, use_container_width=True, theme=None)
 
 else:
@@ -186,6 +207,7 @@ else:
                                            f"modelo ≤ 2000</span>",
                                       x=0.5, y=0.5, showarrow=False,
                                       font=dict(size=26, color=gold))])
+    con_fuente(f, y=-0.06, b=50)
     st.plotly_chart(f, use_container_width=True, theme=None)
     with st.expander("Ver el detalle por tramo de modelo"):
         f2 = go.Figure(go.Bar(x=s.tramo.astype(str), y=s.valor,
@@ -193,6 +215,7 @@ else:
                               text=[f"{v:,}".replace(",", ".") for v in s.valor],
                               textposition="outside", textfont=dict(color=txt, size=9)))
         f2.update_layout(**LAY, height=420, yaxis_title="Vehículos")
+        con_fuente(f2, y=-0.28, b=100)
         st.plotly_chart(f2, use_container_width=True, theme=None)
 
 st.divider()
