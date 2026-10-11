@@ -28,8 +28,13 @@ cambia entre modo oscuro y modo claro.
 
 La fuente es la operación estadística del parque automotor del INE, de base censal y no
 muestral, con series departamentales de 2003 a 2025. El conjunto de origen tiene 38.669
-registros; el tablero trabaja sobre la serie consolidada en 944 filas agregadas por año,
+registros; el tablero trabaja sobre la serie consolidada en 898 filas agregadas por año,
 clase de vehículo y clase de servicio.
+
+Nota de limpieza: en la consolidación original, dos filas por año venían etiquetadas como
+Vagoneta cuando en realidad eran los totales de servicio del departamento entero. Sumarlas
+duplicaba 6.044 vehículos y hacía que las clases sumaran 105.136 en vez de 99.092. Esas
+filas se retiraron del archivo `data_processed/tidy_chuquisaca.csv`.
 
 Cifras de referencia del departamento.
 
@@ -37,6 +42,14 @@ Cifras de referencia del departamento.
 |---|---|
 | 2003 | 19.290 |
 | 2025 | 99.092 |
+
+Y la composición de 2025 por clase, que suma exactamente el total departamental.
+
+| Clase | Vehículos | Participación |
+|---|---|---|
+| Moto | 30.692 | 31,0 % |
+| Vagoneta | 25.029 | 25,3 % |
+| Automóvil | 18.985 | 19,2 % |
 
 La comparación normativa se respalda en la Dirección General de Tráfico de España (2025),
 el Decreto Supremo N.º 2232 (2014) y la Ley N.º 165 (2011).
