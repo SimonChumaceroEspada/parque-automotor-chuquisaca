@@ -172,10 +172,11 @@ elif paso.startswith("2"):
     g = base[base.anio == a1].groupby("categoria").valor.sum().reset_index().sort_values("valor")
     g["pct"] = (g.valor / g.valor.sum() * 100).round(1)
     a, b = g.iloc[-1], g.iloc[-2]
+    juntas = (a.valor + b.valor) / g.valor.sum() * 100
     st.markdown(f"<h2 class='step'>{a.categoria} y {b.categoria} son la mitad del parque</h2>",
                 unsafe_allow_html=True)
-    st.markdown(f"**{a.categoria}** suma {a.valor:,} ({a.pct}%) y **{b.categoria}** suma "
-                f"{b.valor:,} ({b.pct}%). Juntas son el {a.pct+b.pct:.1f}%.".replace(",", "."))
+    st.markdown(f"**{a.categoria}** suma {int(a.valor):,} ({a.pct}%) y **{b.categoria}** suma "
+                f"{int(b.valor):,} ({b.pct}%). Juntas son el {juntas:.1f}%.".replace(",", "."))
     f = go.Figure(go.Bar(x=g.valor, y=g.categoria, orientation="h", marker_color=blue,
                          text=g.pct.apply(lambda p: f"{p:.1f}%"), textposition="outside",
                          textfont=dict(color=txt)))
