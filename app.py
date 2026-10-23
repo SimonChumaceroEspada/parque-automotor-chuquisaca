@@ -294,7 +294,7 @@ elif paso.startswith("3"):
                                       font=dict(size=26, color=gold))])
     con_fuente(f, y=-0.06, b=50)
     st.plotly_chart(f, use_container_width=True, theme=None)
-    with st.expander("Ver el detalle por tramo de modelo"):
+    with st.expander("Ver el detalle por tramo de modelo", expanded=True):
         s = mod.copy()
         s["tramo"] = pd.Categorical(s.categoria, ORDEN["modelo"], ordered=True)
         s = s.sort_values("tramo")
