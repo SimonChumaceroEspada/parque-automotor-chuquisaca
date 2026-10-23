@@ -300,7 +300,9 @@ elif paso.startswith("3"):
         s = s.sort_values("tramo")
         f2 = go.Figure(go.Bar(x=s.tramo.astype(str), y=s.valor,
                               marker_color=[gold] * 7 + [blue] * (len(s) - 7),
-                              text=[num(v) for v in s.valor], textposition="outside",
+                              text=[f"{num(v)} ({num(v / total_m * 100, 1)} %)"
+                                    if total_m else num(v) for v in s.valor],
+                              textposition="outside",
                               textfont=dict(color=txt, size=9)))
         f2.update_layout(**LAY, height=420, yaxis_title="Vehículos")
         con_fuente(f2, y=-0.28, b=100)
